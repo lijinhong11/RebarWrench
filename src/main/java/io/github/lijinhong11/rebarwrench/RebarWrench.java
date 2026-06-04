@@ -42,6 +42,7 @@ public class RebarWrench extends JavaPlugin implements RebarAddon {
         PylonPages.TOOLS.addItem(wrench);
 
         Bukkit.getPluginManager().registerEvents(new BrushListener(), this);
+        Bukkit.getPluginManager().registerEvents(new TheWrenchItem.onBreak(), this);
 
         getLogger().info("RebarWrench is enabled!");
     }

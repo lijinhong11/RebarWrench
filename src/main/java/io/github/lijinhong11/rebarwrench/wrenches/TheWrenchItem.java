@@ -14,10 +14,14 @@ import net.kyori.adventure.text.Component;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 import org.jspecify.annotations.NonNull;
 
@@ -46,7 +50,6 @@ public class TheWrenchItem extends RebarItem implements RebarInteractor {
             BlockStorage.breakBlock(clickedBlock, new BlockBreakContext.PluginBreak(clickedBlock, true, true));
             return;
         }
-
         Wrenchable wrenchable = RebarWrench.getWrenchable(rb.getClass());
         if (wrenchable == null) {
             p.sendMessage(Component.translatable("rebarwrench.message.not_usable"));
@@ -103,5 +106,20 @@ public class TheWrenchItem extends RebarItem implements RebarInteractor {
     private static void writeIndex(Block block, String propertyKey, int index) {
         NamespacedKey k = blockKey(block, "idx_" + propertyKey);
         block.getChunk().getPersistentDataContainer().set(k, PersistentDataType.INTEGER, index);
+    }
+
+    public static final class onBreak implements Listener{
+        @EventHandler
+        public void onBlockBreak(BlockBreakEvent event){
+            Block block = event.getBlock();
+            if (!(BlockStorage.get(block) instanceof RebarBlock rb)) return;
+            Wrenchable wrenchable = RebarWrench.getWrenchable(rb.getClass());
+            if (wrenchable == null) return;
+            PersistentDataContainer pdc = block.getChunk().getPersistentDataContainer();
+            pdc.remove(blockKey(block, "active"));
+            for (String propertyKey : wrenchable.properties().getProperties().keySet()) {
+                pdc.remove(blockKey(block, "idx_" + propertyKey));
+            }
+        }
     }
 }

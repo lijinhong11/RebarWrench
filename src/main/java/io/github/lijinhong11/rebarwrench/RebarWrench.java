@@ -8,6 +8,8 @@ import io.github.pylonmc.rebar.addon.RebarAddon;
 import io.github.pylonmc.rebar.block.RebarBlock;
 import io.github.pylonmc.rebar.item.RebarItem;
 import io.github.pylonmc.rebar.item.builder.ItemStackBuilder;
+import io.papermc.paper.datacomponent.DataComponentTypes;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -37,7 +39,9 @@ public class RebarWrench extends JavaPlugin implements RebarAddon {
     public void onEnable() {
         registerWithRebar();
 
-        ItemStack wrench = ItemStackBuilder.rebar(Material.BRUSH, WRENCH_KEY).build();
+        ItemStack wrench = ItemStackBuilder.rebar(Material.CLAY_BALL, WRENCH_KEY)
+                .set(DataComponentTypes.ITEM_MODEL, Material.BRUSH.getKey())
+                .build();
         RebarItem.register(TheWrenchItem.class, wrench);
         PylonPages.TOOLS.addItem(wrench);
 

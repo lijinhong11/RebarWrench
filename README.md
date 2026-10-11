@@ -4,7 +4,11 @@ Wrench for rebar addons
 ## For Players & Server Owners
 ### Crafting
 ![crafting](media/crafting.png)  
-2 * iron ingot + 2 * tin ingot
+- With [Pylon](https://github.com/pylonmc/pylon) installed: 2 * iron ingot + 2 * tin ingot
+- Without Pylon: 2 * iron ingot + 2 * gold ingot
+
+Pylon is an optional (soft) dependency: the wrench works fine on its own, and only swaps the
+binding metal in its recipe when Pylon is present.
 
 ### Usage
 ![usage](media/usage.png)

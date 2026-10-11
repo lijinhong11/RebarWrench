@@ -60,7 +60,8 @@ bukkit {
     main = project.properties["main-class"] as String
     version = project.version.toString()
     apiVersion = "26.1"
-    depend = listOf("Rebar", "Pylon")
+    depend = listOf("Rebar")
+    softDepend = listOf("Pylon")
     load = BukkitPluginDescription.PluginLoadOrder.STARTUP
 }
 
